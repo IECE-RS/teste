@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Área do Associado</title>
+  <style>
+    body {
+      background-image: url('https://i.ibb.co/VYCz6fX4/VERSO-1.png');
+      background-size: cover;
+      font-family: Arial, sans-serif;
+      color: white;
+      margin: 0;
+      padding: 0;
+      position: relative;
+    }
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px;
+      position: relative;
+    }
+    .login-form, .info-section, .cobrancas-section {
+      background: rgba(0, 0, 0, 0.7);
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 5px;
+      border: none;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .hidden {
+      display: none;
+    }
+    .btn-gerar-pdf {
+      background-color: #008CBA; /* Azul */
+      margin-top: 20px;
+    }
+    .btn-gerar-pdf:hover {
+      background-color: #007B9E; /* Azul mais escuro */
+    }
+    .btn-imprimir {
+      background-color: #f44336; /* Vermelho */
+      margin-top: 20px;
+    }
+    .btn-imprimir:hover {
+      background-color: #d32f2f; /* Vermelho mais escuro */
+    }
+    .btn-whatsapp {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #25D366;
+      color: white;
+      padding: 10px;
+      border-radius: 50%;
+      text-decoration: none;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+    }
+    .btn-whatsapp img {
+      width: 30px;
+      height: 30px;
+    }
+    .btn-voltar {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background-color: #555;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-size: 16px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+    input {
+      width: 98.5%; /* Reduz a largura para 90% do contêiner */
+      padding: 8px; /* Reduz o padding interno (altura) */
+      margin-top: 10px;
+      border-radius: 5px;
+      border: none;
+    }
+    .btn-voltar:hover {
+      background-color: #333;
+    }
+    .top-buttons {
+      position: fixed;
+      top: 20px; /* Posicionado no topo */
+      right: 20px; /* Distância da borda direita */
+      display: flex;
+      flex-direction: row; /* Alinhamento horizontal */
+      gap: 10px;
+      z-index: 1000; /* Garante que os botões fiquem acima do conteúdo */
+    }
+    .top-buttons button {
+      background-color: #003366; /* Azul escuro */
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 150px;
+      text-align: center;
+    }
+    .top-buttons button:hover {
+      background-color: #002244; /* Azul mais escuro */
+    }
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.9);
+      padding: 20px;
+      border-radius: 10px;
+      color: white;
+      text-align: center;
+      z-index: 1000;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+    .popup button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .popup button:hover {
+      background-color: #45a049;
+    }
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(5px);
+      z-index: 999;
+      display: none;
+    }
+    .logo {
+      position: fixed;
+      top: 75%;
+      left: 20px;
+      width: 60px; /* Tamanho menor */
+      height: auto;
+      cursor: pointer;
+      z-index: 1001; /* Garante que o logo fique acima de outros elementos */
+    }
+    .esqueci-senha {
+      text-align: center;
+      margin-top: 10px;
+      color: white;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    .esqueci-senha:hover {
+      color: #ddd;
+    }
+    .foto-associado {
+      margin-top: 20px;
+      text-align: center;
+      float: right; /* Foto à direita */
+      margin-left: 20px; /* Espaçamento entre o conteúdo e a foto */
+    }
+    .foto-associado img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid white;
+    }
+    .btn-adicionar-foto {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+      display: block;
+      margin: 10px auto;
+    }
+    .btn-adicionar-foto:hover {
+      background-color: #45a049;
+    }
+    .info-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .info-content {
+      flex: 1;
+    }
+  </style>
+  <!-- Inclua a biblioteca jsPDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <!-- Botões no topo -->
+    <div class="top-buttons">
+      <button onclick="abrirPopup('https://iecers.org/reserva-de-livro-para-associados/')">Reservar Livros</button>
+      <button onclick="abrirPopup('https://iecers.org/psicologo-popular/')">Psicologo Popular</button>
+      <button onclick="abrirPopup('https://iecers.org/beneficios-para-associados/')">Benefícios</button>
+    </div>
+
+    <!-- Área de login -->
+    <div class="login-form">
+      <input type="text" id="cpf" placeholder="CPF">
+      <input type="password" id="senha" placeholder="Senha">
+      <button onclick="login()">Entrar</button>
+      <p class="esqueci-senha" onclick="window.open('https://api.whatsapp.com/send?phone=5553991895234&text=Gostaria%20de%20solicitar%20a%20redefini%C3%A7%C3%A3o%20da%20minha%20senha%20de%20acesso%20%C3%A0%20plataforma%20de%20Associados%20do%20IECE-RS.%20N%C3%A3o%20estou%20conseguindo%20acessar%20minha%20conta%20e%20acredito%20que%20seja%20necess%C3%A1rio%20redefinir%20a%20senha%20atual', '_blank')">Esqueci a senha</p>
+    </div>
+
+    <!-- Área de informações (oculta inicialmente) -->
+    <div class="info-section hidden">
+      <div class="info-content">
+        <h2>Informações do Associado</h2>
+        <p>Nome Completo: <span id="nome"></span></p>
+        <p>Data de Nascimento: <span id="nascimento"></span></p>
+        <p>Código de Associado: <span id="codigo"></span></p>
+        <p>Data de Associação: <span id="dataAssociacao"></span></p>
+        <p>Valor da Mensalidade: <span id="mensalidade"></span></p>
+        <p>Data de Cobrança: <span id="dataCobranca"></span></p>
+        <div id="qrCodeContainer"></div> <!-- Container para o QR Code -->
+      </div>
+      <div class="foto-associado">
+        <img id="fotoPerfil" src="https://via.placeholder.com/150" alt="Foto do Associado">
+        <button id="btnAdicionarFoto" class="btn-adicionar-foto" onclick="document.getElementById('uploadFoto').click()">Adicionar Foto</button>
+        <input type="file" id="uploadFoto" accept="image/*" style="display: none;" onchange="carregarFoto(event)">
+      </div>
+    </div>
+
+    <!-- Área de cobranças (oculta inicialmente) -->
+    <div class="cobrancas-section hidden">
+      <h2>Cobranças</h2>
+      <p>Cobranças já feitas: <span id="cobrancasFeitas"></span></p>
+      <p>Próxima cobrança: <span id="proximaCobranca"></span></p>
+    </div>
+
+    <!-- Botões de gerar PDF e imprimir (ocultos inicialmente) -->
+    <button class="btn-gerar-pdf hidden" onclick="gerarPDF()">Gerar Cartão de Associado</button>
+    <button class="btn-imprimir hidden" onclick="imprimirPDF()">Imprimir</button>
+  </div>
+
+  <!-- Botão de WhatsApp -->
+  <a href="https://wa.me/53991895234" class="btn-whatsapp" target="_blank">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/640px-WhatsApp.svg.png" alt="WhatsApp">
+  </a>
+
+  <!-- Botão de Voltar -->
+  <a href="https://iecers.org" class="btn-voltar" target="_blank">Voltar</a>
+
+  <!-- Logo do instituto como botão -->
+  <img src="https://i.ibb.co/6j2Xv9W/quadrado-preto-1-2.png" alt="Logo" class="logo" onclick="abrirPopupAgradecimento()">
+
+  <!-- Pop-up de agradecimento -->
+  <div id="popupAgradecimento" class="popup hidden">
+    <h2>Obrigado por fazer parte do nosso instituto!</h2>
+    <p>Sua contribuição é essencial para o crescimento e sucesso da nossa comunidade. Juntos, podemos fazer a diferença!</p>
+    <button onclick="fecharPopupAgradecimento()">Fechar</button>
+  </div>
+
+  <!-- Overlay para fundo desfocado -->
+  <div class="overlay" id="overlay"></div>
+
+  <script>
+    // URL da API do Google Apps Script (substitua pelo seu URL)
+    const API_URL = "https://script.google.com/macros/s/AKfycby69ms7JC9moXWlukKagmsApR1-UzctvB6Z1dVVuiBBWNAPztlYJNtrdCJlCFCVSdtqKA/exec";
+
+    // Função de login
+    async function login() {
+      const cpf = document.getElementById('cpf').value;
+      const senha = document.getElementById('senha').value;
+
+      // Faz a requisição para o Google Apps Script
+      const response = await fetch(`${API_URL}?cpf=${cpf}&senha=${senha}`);
+      const dados = await response.json();
+
+      if (dados.error) {
+        alert(dados.error);
+      } else {
+        carregarDadosAssociado(dados);
+        document.querySelector('.login-form').classList.add('hidden');
+        document.querySelector('.info-section').classList.remove('hidden');
+        document.querySelector('.cobrancas-section').classList.remove('hidden');
+        document.querySelector('.btn-gerar-pdf').classList.remove('hidden');
+        document.querySelector('.btn-imprimir').classList.remove('hidden');
+      }
+    }
+
+    // Função para carregar os dados do associado
+    function carregarDadosAssociado(dados) {
+      document.getElementById('nome').textContent = dados.nome;
+      document.getElementById('nascimento').textContent = dados.nascimento;
+      document.getElementById('codigo').textContent = dados.codigo;
+      document.getElementById('dataAssociacao').textContent = dados.dataAssociacao;
+      document.getElementById('mensalidade').textContent = dados.mensalidade;
+      document.getElementById('dataCobranca').textContent = dados.dataCobranca;
+
+      // Gerar QR Code
+      const qrCodeContainer = document.getElementById('qrCodeContainer');
+      qrCodeContainer.innerHTML = '';
+      new QRCode(qrCodeContainer, {
+        text: dados.linkQrCode,
+        width: 128,
+        height: 128,
+        colorDark: "#000000",
+        colorLight: "rgba(0, 0, 0, 0)",
+      });
+
+      document.getElementById('cobrancasFeitas').textContent = dados.cobrancas;
+      document.getElementById('proximaCobranca').textContent = dados.proximaCobranca;
+
+      // Carregar foto do associado, se existir
+      if (dados.foto) {
+        document.getElementById('fotoPerfil').src = dados.foto;
+        document.getElementById('btnAdicionarFoto').textContent = "Alterar Foto";
+      }
+    }
+
+    // Função para carregar a foto do associado
+    function carregarFoto(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById('fotoPerfil').src = e.target.result;
+          document.getElementById('btnAdicionarFoto').textContent = "Alterar Foto";
+          enviarFotoParaPlanilha(e.target.result);
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    // Função para enviar a foto para a planilha
+    async function enviarFotoParaPlanilha(fotoBase64) {
+      const codigoAssociado = document.getElementById('codigo').textContent;
+
+      try {
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            codigo: codigoAssociado,
+            foto: fotoBase64,
+          }),
+        });
+
+        const resultado = await response.json();
+
+        if (resultado.success) {
+          alert('Foto salva com sucesso!');
+        } else {
+          alert('Erro ao salvar a foto: ' + (resultado.error || 'Erro desconhecido'));
+        }
+      } catch (error) {
+        alert('Erro ao enviar a foto: ' + error.message);
+      }
+    }
+
+    // Função para gerar PDF (mantenha a função original)
+    function gerarPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF('l', 'mm', [85.6, 53.98]); // Paisagem 100% cartão
+
+      // Nova imagem de fundo e verso
+      const imgFrente = 'https://i.ibb.co/VcbgF0Qb/Slide1.jpg'; // Frente
+      const imgVerso = 'https://i.ibb.co/G3HW9XZ0/Slide2.jpg';  // Verso
+
+      // IMAGEM FRENTE
+      doc.addImage(imgFrente, 'JPEG', 0, 0, 85.6, 53.98); // Tamanho PERFEITO
+
+      // Configurações de fonte e cor
+      doc.setFont("helvetica", "bold"); // Fonte Helvetica Negrito
+      doc.setTextColor(0, 0, 0); // Cor preta
+
+      // Nome alinhado à direita
+      const nome = document.getElementById('nome').textContent;
+      doc.setFontSize(16); // Tamanho maior para o nome
+      doc.text(nome, 85.6 - 5, 6, { align: 'right', maxWidth: 55 }); // Alinhado à direita
+
+      // Código no meio
+      doc.setFontSize(12); // Tamanho da fonte do código
+      const codigo = "" + document.getElementById('codigo').textContent;
+      doc.text(codigo, 67, 25, { align: 'right' }); // Ajuste a posição (x, y)
+
+      // Data na parte inferior
+      doc.setFontSize(8); // Tamanho da fonte da data
+      const dataAssociacao = "" + document.getElementById('dataAssociacao').textContent;
+      doc.text(dataAssociacao, 47, 47.5); // Ajuste a posição (x, y)
+
+      // Gerar QR Code diretamente no PDF
+      const qrCodeImg = document.querySelector('#qrCodeContainer img');
+      doc.addImage(qrCodeImg.src, 'PNG', 64, 33, 20, 20); // Ajuste de tamanho e posição do QR code
+
+      // VERSO
+      doc.addPage();
+      doc.addImage(imgVerso, 'JPEG', 0, 0, 85.6, 53.98); // Imagem de fundo verso
+
+      // BAIXAR O PDF
+      doc.save(`cartao_associado_${document.getElementById('nome').textContent}.pdf`);
+    }
+
+    // Função para imprimir PDF (mantenha a função original)
+    function imprimirPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF('p', 'mm', 'a4'); // Formato A4
+
+      // Tamanho do cartão
+      const cardWidth = 85.6;
+      const cardHeight = 53.98;
+
+      // Espaço entre a frente e o verso
+      const espacoEntreCartoes = 1.5; // 1.5mm de espaço
+
+      // Margens para centralizar os cartões na página A4
+      const marginX = (210 - (cardWidth * 2 + espacoEntreCartoes)) / 2; // Margem horizontal (A4 tem 210mm de largura)
+      const marginY = (297 - cardHeight) / 2 - 20; // Margem vertical (A4 tem 297mm de altura), ajustada para o título
+
+      // Adicionar TÍTULO na parte superior
+      doc.setFontSize(18);
+      doc.setFont("helvetica", "bold");
+      doc.setTextColor(0, 0, 0); // Cor preta
+      doc.text("Cartão de Associado - IECE-RS", 105, 20, { align: 'center' }); // Centralizado na página
+
+      // Adicionar TEXTO PASSO A PASSO logo abaixo do título
+      doc.setFontSize(14); // Fonte maior para o passo a passo
+      doc.setFont("helvetica", "normal");
+
+      // Texto do passo a passo
+      const passo1 = "1. Imprima o cartão em papel de alta qualidade.";
+      const passo2 = "2. Recorte cuidadosamente ao longo das linhas pontilhadas.";
+      const passo3 = "3. Plastifique para maior durabilidade.";
+
+      // Posição inicial
+      const startX = 20; // Margem esquerda
+      let startY = 36; // Posição Y inicial
+
+      // Adicionar texto alinhado à esquerda
+      doc.text(passo1, startX, startY, { align: 'left' });
+      startY += 8; // Espaçamento entre linhas
+      doc.text(passo2, startX, startY, { align: 'left' });
+      startY += 8; // Espaçamento entre linhas
+      doc.text(passo3, startX, startY, { align: 'left' });
+
+      // Nova imagem de fundo e verso
+      const imgFrente = 'https://i.ibb.co/VcbgF0Qb/Slide1.jpg'; // Frente
+      const imgVerso = 'https://i.ibb.co/G3HW9XZ0/Slide2.jpg';  // Verso
+
+      // Adicionar FRENTE do cartão (lado esquerdo)
+      doc.addImage(imgFrente, 'JPEG', marginX, marginY, cardWidth, cardHeight);
+
+      // Desenhar borda preta fina ao redor da frente
+      doc.setDrawColor(0); // Cor preta
+      doc.setLineWidth(0.5); // Espessura da borda (0.5mm)
+      doc.rect(marginX, marginY, cardWidth, cardHeight); // Desenha o retângulo
+
+      // Configurações de fonte e cor
+      doc.setFont("helvetica", "bold"); // Fonte Helvetica Negrito
+      doc.setTextColor(0, 0, 0); // Cor preta
+
+      // Nome alinhado à direita (frente)
+      const nome = document.getElementById('nome').textContent;
+      doc.setFontSize(16); // Tamanho maior para o nome
+      doc.text(nome, marginX + cardWidth - 5, marginY + 6, { align: 'right', maxWidth: 55 }); // Ajuste a posição
+
+      // Código no meio (frente)
+      doc.setFontSize(12); // Tamanho da fonte do código
+      const codigo = "" + document.getElementById('codigo').textContent;
+      doc.text(codigo, marginX + cardWidth - 18, marginY + 25, { align: 'right' }); // Ajuste a posição
+
+      // Data na parte inferior (frente)
+      doc.setFontSize(8); // Tamanho da fonte da data
+      const dataAssociacao = "" + document.getElementById('dataAssociacao').textContent;
+      doc.text(dataAssociacao, marginX + cardWidth - 38, marginY + 47.5); // Ajuste a posição
+
+      // Gerar QR Code diretamente no PDF (frente)
+      const qrCodeImg = document.querySelector('#qrCodeContainer img');
+      doc.addImage(qrCodeImg.src, 'PNG', marginX + cardWidth - 21, marginY + 33, 20, 20); // Ajuste de tamanho e posição do QR code
+
+      // Adicionar VERSO do cartão (lado direito)
+      doc.addImage(imgVerso, 'JPEG', marginX + cardWidth + espacoEntreCartoes, marginY, cardWidth, cardHeight);
+
+      // Desenhar borda preta fina ao redor do verso
+      doc.setDrawColor(0); // Cor preta
+      doc.setLineWidth(0.5); // Espessura da borda (0.5mm)
+      doc.rect(marginX + cardWidth + espacoEntreCartoes, marginY, cardWidth, cardHeight); // Desenha o retângulo
+
+      // SELO 2025 (verso)
+      doc.setFontSize(12);
+      doc.setTextColor(255, 0, 0);
+      doc.text('', marginX + cardWidth + espacoEntreCartoes + 70, marginY + 50); // Ajuste de posição do selo
+
+      // Adicionar CONTORNO PONTILHADO para área de recorte (envolve frente e verso como uma única área)
+      doc.setDrawColor(0); // Cor preta
+      doc.setLineWidth(0.2); // Espessura fina
+      doc.setLineDashPattern([2, 2]); // Padrão pontilhado
+      doc.rect(marginX - 2, marginY - 2, cardWidth * 2 + espacoEntreCartoes + 4, cardHeight + 4); // Contorno único para frente e verso
+
+      // Adicionar ÍCONE DE TESOURA para indicar recorte
+      const tesouraImg = 'https://i.ibb.co/Jw3jkrP1/541957.png'; // Substitua pelo link da tesoura
+      doc.addImage(tesouraImg, 'PNG', marginX + cardWidth / 2 - 5, marginY + cardHeight + 5, 10, 10); // Tesoura abaixo da frente
+      doc.addImage(tesouraImg, 'PNG', marginX + cardWidth + espacoEntreCartoes + cardWidth / 2 - 5, marginY + cardHeight + 5, 10, 10); // Tesoura abaixo do verso
+
+      // Adicionar FRASE DE PAULO FREIRE abaixo dos cartões
+      doc.setFontSize(10);
+      doc.setFont("helvetica", "italic");
+      doc.setTextColor(0, 0, 0); // Cor preta
+      doc.text("“Educação não transforma o mundo. Educação muda as pessoas. Pessoas transformam o mundo.”", 105, marginY + cardHeight + 30, { align: 'center' }); // Frase de Paulo Freire
+      doc.text("- Paulo Freire", 105, marginY + cardHeight + 35, { align: 'center' }); // Autor da frase
+
+      // Adicionar LOGO DO IECE-RS na parte inferior
+      const logoImg = 'https://i.ibb.co/6j2Xv9W/quadrado-preto-1-2.png'; // Substitua pelo link do logo
+      doc.addImage(logoImg, 'PNG', 85, marginY + cardHeight + 45, 40, 40); // Centralizado na parte inferior
+
+      // IMPRIMIR O PDF
+      doc.autoPrint(); // Abre o diálogo de impressão
+      window.open(doc.output('bloburl'), '_blank'); // Abre o PDF em uma nova aba para impressão
+    }
+
+    // Função para abrir pop-ups
+    function abrirPopup(url) {
+      window.open(url, 'Popup', 'width=800,height=600');
+    }
+
+    // Função para abrir o pop-up de agradecimento
+    function abrirPopupAgradecimento() {
+      document.getElementById('popupAgradecimento').classList.remove('hidden');
+      document.getElementById('overlay').style.display = 'block';
+    }
+
+    // Função para fechar o pop-up de agradecimento
+    function fecharPopupAgradecimento() {
+      document.getElementById('popupAgradecimento').classList.add('hidden');
+      document.getElementById('overlay').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
